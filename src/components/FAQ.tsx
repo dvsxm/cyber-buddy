@@ -4,7 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, MessageCircle } from "lucide-react";
+import AnimatedSection from "./AnimatedSection";
+import { Button } from "./ui/button";
 
 const FAQ = () => {
   const faqs = [
@@ -43,7 +45,7 @@ const FAQ = () => {
   return (
     <section className="py-24 bg-gradient-to-b from-card/50 to-background">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <AnimatedSection className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/5 mb-6">
             <HelpCircle className="w-4 h-4 text-primary" />
             <span className="text-sm text-primary font-medium">FAQ</span>
@@ -54,39 +56,44 @@ const FAQ = () => {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Get answers to common questions about CyberShield's security platform
           </p>
-        </div>
+        </AnimatedSection>
 
-        <div className="max-w-3xl mx-auto">
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-primary/50 transition-colors"
-              >
-                <AccordionTrigger className="text-left hover:no-underline py-6 text-foreground font-medium">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-6 leading-relaxed">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
+        <AnimatedSection delay={200}>
+          <div className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="space-y-4">
+              {faqs.map((faq, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
+                  className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-primary/50 data-[state=open]:shadow-lg data-[state=open]:shadow-primary/5 transition-all duration-300 hover:border-primary/30"
+                >
+                  <AccordionTrigger className="text-left hover:no-underline py-6 text-foreground font-medium group">
+                    <span className="group-hover:text-primary transition-colors">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground pb-6 leading-relaxed animate-fade-in">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </AnimatedSection>
 
         {/* Contact CTA */}
-        <div className="text-center mt-12">
-          <p className="text-muted-foreground mb-4">
-            Still have questions? We're here to help.
-          </p>
-          <a
-            href="#contact"
-            className="text-primary font-medium hover:underline"
-          >
-            Contact our team →
-          </a>
-        </div>
+        <AnimatedSection delay={400} className="text-center mt-12">
+          <div className="inline-flex flex-col items-center p-8 rounded-2xl bg-card border border-border hover:border-primary/30 transition-colors">
+            <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <MessageCircle className="w-7 h-7 text-primary" />
+            </div>
+            <p className="text-muted-foreground mb-4">
+              Still have questions? We're here to help.
+            </p>
+            <Button variant="cyber-outline" className="group">
+              Contact our team
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Button>
+          </div>
+        </AnimatedSection>
       </div>
     </section>
   );

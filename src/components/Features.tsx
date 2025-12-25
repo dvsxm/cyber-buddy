@@ -1,4 +1,5 @@
 import { Check, Zap, Clock, Users } from "lucide-react";
+import AnimatedSection from "./AnimatedSection";
 
 const features = [
   {
@@ -42,63 +43,66 @@ const Features = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Stats */}
-          <div>
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider mb-4 block">
-              Why Choose Us
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Built for <span className="text-gradient-cyber">Enterprise</span> Scale
-            </h2>
-            <p className="text-muted-foreground text-lg mb-10">
-              Our platform is designed to handle the most demanding security requirements while remaining simple to use.
-            </p>
+          <AnimatedSection animation="fade-right">
+            <div>
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider mb-4 block">
+                Why Choose Us
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+                Built for <span className="text-gradient-cyber">Enterprise</span> Scale
+              </h2>
+              <p className="text-muted-foreground text-lg mb-10">
+                Our platform is designed to handle the most demanding security requirements while remaining simple to use.
+              </p>
 
-            {/* Feature Cards */}
-            <div className="space-y-6">
-              {features.map((feature, index) => (
-                <div
-                  key={feature.title}
-                  className="flex gap-5 p-5 rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-300"
-                >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <feature.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold mb-1">{feature.title}</h3>
-                    <p className="text-muted-foreground text-sm">{feature.description}</p>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="text-2xl font-bold text-primary">{feature.stats}</div>
-                    <div className="text-xs text-muted-foreground">{feature.statsLabel}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column - Checklist */}
-          <div className="relative">
-            <div className="p-8 md:p-10 rounded-3xl bg-card border border-border">
-              <h3 className="text-2xl font-bold mb-8">Everything You Need</h3>
-              
-              <div className="space-y-4">
-                {checklistItems.map((item, index) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors duration-300"
-                  >
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-4 h-4 text-primary" />
+              {/* Feature Cards */}
+              <div className="space-y-6">
+                {features.map((feature, index) => (
+                  <AnimatedSection key={feature.title} delay={index * 150}>
+                    <div className="flex gap-5 p-5 rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1">
+                      <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
+                        <feature.icon className="w-6 h-6 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold mb-1">{feature.title}</h3>
+                        <p className="text-muted-foreground text-sm">{feature.description}</p>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <div className="text-2xl font-bold text-primary font-mono">{feature.stats}</div>
+                        <div className="text-xs text-muted-foreground">{feature.statsLabel}</div>
+                      </div>
                     </div>
-                    <span className="font-medium">{item}</span>
-                  </div>
+                  </AnimatedSection>
                 ))}
               </div>
             </div>
+          </AnimatedSection>
 
-            {/* Decorative Glow */}
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl" />
-          </div>
+          {/* Right Column - Checklist */}
+          <AnimatedSection animation="fade-left" delay={200}>
+            <div className="relative">
+              <div className="p-8 md:p-10 rounded-3xl bg-card border border-border hover:border-primary/20 transition-all duration-500">
+                <h3 className="text-2xl font-bold mb-8">Everything You Need</h3>
+                
+                <div className="space-y-4">
+                  {checklistItems.map((item, index) => (
+                    <AnimatedSection key={item} delay={300 + index * 100}>
+                      <div className="flex items-center gap-4 p-4 rounded-xl bg-secondary/50 hover:bg-secondary transition-all duration-300 group cursor-pointer hover:translate-x-2">
+                        <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 group-hover:scale-110 transition-all duration-300">
+                          <Check className="w-4 h-4 text-primary" />
+                        </div>
+                        <span className="font-medium">{item}</span>
+                      </div>
+                    </AnimatedSection>
+                  ))}
+                </div>
+              </div>
+
+              {/* Decorative Glow */}
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute -top-5 -left-5 w-20 h-20 bg-accent/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: "500ms" }} />
+            </div>
+          </AnimatedSection>
         </div>
       </div>
     </section>
