@@ -10,10 +10,14 @@ import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import ParticleBackground from "@/components/ParticleBackground";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <ParticleBackground />
+      <ScrollIndicator />
       <Navbar />
       <Hero />
       <TrustedBy />
