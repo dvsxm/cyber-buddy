@@ -9,8 +9,33 @@ interface AttackArc {
   progress: number;
 }
 
-// Simplified world map path - major continents outline
-const WORLD_PATH = "M113.7,91.6l1.1,1.4l-0.3,1.4l-2.5,0.8l-1-0.3l-0.5-1.4l1.1-1.2L113.7,91.6z M121.3,95.6l1.4,1.2l-0.3,1.4l-2.3,0.3l-1.4-0.5l-0.3-1.4L121.3,95.6z M156.5,78.1l2,1.1l0.3,1.4l-1.4,1.1l-2.3-0.3l-0.8-1.4L156.5,78.1z M167.8,75.3l1.7,0.8l-0.3,1.1l-1.4,0.6l-1.1-0.6l0-0.8L167.8,75.3z M89.9,68.6l4.5,1.7l3.1,3.4l-0.3,4l-3.4,2.3l-4.5-0.3l-3.4-2.5l0.3-4.5L89.9,68.6z M144.6,55.3l6.8,2.5l4.5,3.4l1.1,4.5l-2.5,4l-5.1,2l-6.2-1.1l-4.5-3.4l-0.6-4.5l2.8-4L144.6,55.3z";
+// Detailed continent paths for realistic world map (viewBox 0 0 100 100)
+const CONTINENT_PATHS = {
+  // North America
+  northAmerica: "M5,18 L8,15 L12,14 L18,12 L22,10 L28,12 L32,15 L35,18 L36,22 L35,28 L32,32 L28,35 L25,38 L22,42 L18,45 L15,48 L12,46 L10,42 L8,38 L6,34 L5,30 L4,26 L5,22 L5,18 Z M25,38 L28,40 L30,44 L28,48 L24,50 L20,48 L18,45 L22,42 L25,38 Z",
+  // South America
+  southAmerica: "M22,52 L26,50 L30,52 L34,55 L36,60 L35,66 L33,72 L30,78 L27,82 L24,85 L22,82 L21,78 L20,72 L19,66 L20,60 L21,55 L22,52 Z",
+  // Europe
+  europe: "M44,20 L48,18 L52,17 L56,18 L58,21 L60,24 L58,28 L55,32 L52,35 L48,36 L45,34 L43,30 L42,26 L43,22 L44,20 Z M38,28 L42,26 L44,30 L42,34 L38,35 L35,32 L36,28 L38,28 Z",
+  // Africa
+  africa: "M42,38 L46,36 L52,37 L58,40 L62,44 L64,50 L63,58 L60,66 L56,72 L52,76 L48,78 L44,76 L42,72 L40,66 L39,58 L40,50 L41,44 L42,38 Z",
+  // Asia
+  asia: "M60,14 L68,12 L76,14 L84,16 L90,20 L94,26 L95,32 L94,40 L90,46 L84,50 L78,52 L72,50 L66,46 L62,40 L60,34 L58,28 L58,22 L60,14 Z M72,50 L78,52 L82,56 L80,60 L75,62 L70,58 L72,50 Z",
+  // Australia
+  australia: "M80,62 L86,60 L92,62 L96,66 L96,72 L94,76 L90,78 L84,77 L80,74 L78,70 L79,66 L80,62 Z",
+  // Greenland
+  greenland: "M32,8 L38,6 L42,8 L44,12 L42,16 L38,18 L34,16 L32,12 L32,8 Z",
+  // UK & Ireland
+  ukIreland: "M40,22 L42,20 L44,22 L43,26 L40,28 L38,26 L40,22 Z",
+  // Japan
+  japan: "M88,32 L90,30 L92,32 L91,36 L88,38 L86,36 L88,32 Z",
+  // New Zealand
+  newZealand: "M94,80 L96,78 L98,80 L97,84 L94,85 L93,82 L94,80 Z",
+  // Indonesia
+  indonesia: "M78,54 L82,52 L86,54 L84,58 L80,59 L76,57 L78,54 Z",
+  // Madagascar
+  madagascar: "M64,64 L66,62 L68,64 L67,70 L64,72 L62,68 L64,64 Z"
+};
 
 const COUNTRY_POSITIONS: { [key: string]: { x: number; y: number } } = {
   US: { x: 20, y: 35 },
@@ -191,20 +216,47 @@ const WorldMap = memo(({ onAttackGenerated }: WorldMapProps) => {
           </radialGradient>
         </defs>
 
-        {/* World map outline (simplified) */}
+        {/* Detailed continent shapes */}
+        <g className="opacity-40">
+          {Object.entries(CONTINENT_PATHS).map(([name, path]) => (
+            <path
+              key={name}
+              d={path}
+              fill="hsl(186, 100%, 50%)"
+              fillOpacity="0.15"
+              stroke="hsl(186, 100%, 50%)"
+              strokeWidth="0.3"
+              strokeLinejoin="round"
+              className="transition-all duration-500"
+            />
+          ))}
+        </g>
+        
+        {/* Continent glow effect */}
         <g className="opacity-20">
-          {/* North America */}
-          <ellipse cx="20" cy="35" rx="15" ry="20" fill="none" stroke="hsl(186, 100%, 50%)" strokeWidth="0.2" />
-          {/* South America */}
-          <ellipse cx="30" cy="65" rx="10" ry="18" fill="none" stroke="hsl(186, 100%, 50%)" strokeWidth="0.2" />
-          {/* Europe */}
-          <ellipse cx="50" cy="30" rx="10" ry="8" fill="none" stroke="hsl(186, 100%, 50%)" strokeWidth="0.2" />
-          {/* Africa */}
-          <ellipse cx="52" cy="55" rx="12" ry="18" fill="none" stroke="hsl(186, 100%, 50%)" strokeWidth="0.2" />
-          {/* Asia */}
-          <ellipse cx="75" cy="35" rx="18" ry="15" fill="none" stroke="hsl(186, 100%, 50%)" strokeWidth="0.2" />
-          {/* Australia */}
-          <ellipse cx="88" cy="70" rx="8" ry="6" fill="none" stroke="hsl(186, 100%, 50%)" strokeWidth="0.2" />
+          {Object.entries(CONTINENT_PATHS).map(([name, path]) => (
+            <path
+              key={`glow-${name}`}
+              d={path}
+              fill="none"
+              stroke="hsl(186, 100%, 70%)"
+              strokeWidth="1"
+              filter="url(#glow)"
+              strokeLinejoin="round"
+            />
+          ))}
+        </g>
+        
+        {/* Grid lines for map */}
+        <g className="opacity-10">
+          {/* Latitude lines */}
+          {[20, 35, 50, 65, 80].map(y => (
+            <line key={`lat-${y}`} x1="2" y1={y} x2="98" y2={y} stroke="hsl(186, 100%, 50%)" strokeWidth="0.1" strokeDasharray="1,2" />
+          ))}
+          {/* Longitude lines */}
+          {[15, 30, 50, 70, 85].map(x => (
+            <line key={`lng-${x}`} x1={x} y1="5" x2={x} y2="95" stroke="hsl(186, 100%, 50%)" strokeWidth="0.1" strokeDasharray="1,2" />
+          ))}
         </g>
 
         {/* Country nodes */}
