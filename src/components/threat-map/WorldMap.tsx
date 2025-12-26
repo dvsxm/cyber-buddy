@@ -9,32 +9,98 @@ interface AttackArc {
   progress: number;
 }
 
-// Detailed continent paths for realistic world map (viewBox 0 0 100 100)
+// Accurate continent paths for realistic world map (viewBox 0 0 100 100, Mercator-style projection)
 const CONTINENT_PATHS = {
-  // North America
-  northAmerica: "M5,18 L8,15 L12,14 L18,12 L22,10 L28,12 L32,15 L35,18 L36,22 L35,28 L32,32 L28,35 L25,38 L22,42 L18,45 L15,48 L12,46 L10,42 L8,38 L6,34 L5,30 L4,26 L5,22 L5,18 Z M25,38 L28,40 L30,44 L28,48 L24,50 L20,48 L18,45 L22,42 L25,38 Z",
-  // South America
-  southAmerica: "M22,52 L26,50 L30,52 L34,55 L36,60 L35,66 L33,72 L30,78 L27,82 L24,85 L22,82 L21,78 L20,72 L19,66 L20,60 L21,55 L22,52 Z",
-  // Europe
-  europe: "M44,20 L48,18 L52,17 L56,18 L58,21 L60,24 L58,28 L55,32 L52,35 L48,36 L45,34 L43,30 L42,26 L43,22 L44,20 Z M38,28 L42,26 L44,30 L42,34 L38,35 L35,32 L36,28 L38,28 Z",
-  // Africa
-  africa: "M42,38 L46,36 L52,37 L58,40 L62,44 L64,50 L63,58 L60,66 L56,72 L52,76 L48,78 L44,76 L42,72 L40,66 L39,58 L40,50 L41,44 L42,38 Z",
-  // Asia
-  asia: "M60,14 L68,12 L76,14 L84,16 L90,20 L94,26 L95,32 L94,40 L90,46 L84,50 L78,52 L72,50 L66,46 L62,40 L60,34 L58,28 L58,22 L60,14 Z M72,50 L78,52 L82,56 L80,60 L75,62 L70,58 L72,50 Z",
-  // Australia
-  australia: "M80,62 L86,60 L92,62 L96,66 L96,72 L94,76 L90,78 L84,77 L80,74 L78,70 L79,66 L80,62 Z",
+  // North America - with Alaska, Canada, USA, Mexico, Central America
+  northAmerica: `
+    M 3,12 L 5,10 L 8,9 L 10,8 L 12,9 L 11,11 L 9,13 L 7,14 L 5,15 L 3,14 Z
+    M 6,16 L 10,14 L 14,12 L 18,10 L 22,9 L 26,10 L 28,12 L 27,15 L 24,16 L 22,14 L 20,15 L 18,17 L 16,19 L 14,21 L 12,22 L 10,21 L 8,19 L 6,18 Z
+    M 10,22 L 14,21 L 18,20 L 22,18 L 26,17 L 30,18 L 32,21 L 30,24 L 27,26 L 24,28 L 22,31 L 20,34 L 18,36 L 16,38 L 14,40 L 12,42 L 11,44 L 13,46 L 16,47 L 18,49 L 17,51 L 14,52 L 12,50 L 10,47 L 9,44 L 10,40 L 12,36 L 14,32 L 15,28 L 14,25 L 12,23 L 10,22 Z
+    M 18,49 L 21,48 L 24,50 L 22,53 L 19,54 L 17,52 L 18,49 Z
+  `,
+  // South America - Brazil, Argentina, Chile, Colombia, Peru, etc.
+  southAmerica: `
+    M 24,52 L 28,50 L 32,51 L 35,53 L 36,56 L 35,59 L 33,62 L 34,65 L 36,68 L 35,72 L 32,75 L 29,78 L 27,82 L 26,86 L 24,88 L 22,86 L 23,82 L 24,78 L 23,74 L 22,70 L 21,66 L 22,62 L 24,58 L 25,55 L 24,52 Z
+    M 27,52 L 30,50 L 33,52 L 32,55 L 29,56 L 27,54 L 27,52 Z
+  `,
+  // Europe - Iberian Peninsula, France, UK, Scandinavia, Eastern Europe
+  europe: `
+    M 43,24 L 44,22 L 46,21 L 48,22 L 47,25 L 45,27 L 43,26 L 43,24 Z
+    M 40,27 L 43,25 L 46,26 L 48,28 L 46,31 L 43,32 L 40,30 L 40,27 Z
+    M 46,20 L 48,18 L 51,17 L 54,18 L 56,20 L 55,23 L 52,24 L 49,23 L 47,21 L 46,20 Z
+    M 44,32 L 47,30 L 50,29 L 53,30 L 56,32 L 58,35 L 56,37 L 53,36 L 50,34 L 47,33 L 44,32 Z
+    M 48,18 L 50,15 L 53,13 L 56,14 L 58,17 L 56,19 L 53,18 L 50,17 L 48,18 Z
+    M 56,19 L 59,17 L 62,18 L 64,21 L 62,24 L 59,23 L 57,21 L 56,19 Z
+  `,
+  // Africa - with Horn of Africa, Madagascar proximity
+  africa: `
+    M 44,38 L 48,36 L 52,35 L 56,36 L 59,38 L 61,41 L 62,44 L 64,47 L 65,50 L 64,54 L 62,58 L 60,62 L 57,66 L 54,70 L 50,73 L 47,74 L 44,72 L 42,68 L 41,64 L 42,60 L 44,56 L 45,52 L 44,48 L 42,44 L 43,40 L 44,38 Z
+    M 61,41 L 64,39 L 66,42 L 65,46 L 62,47 L 60,44 L 61,41 Z
+  `,
+  // Asia - Russia, Middle East, India, China, Southeast Asia
+  asia: `
+    M 58,18 L 62,16 L 68,14 L 74,13 L 80,14 L 86,16 L 90,18 L 93,21 L 95,25 L 94,28 L 91,26 L 88,24 L 85,23 L 82,24 L 79,26 L 76,28 L 74,26 L 72,24 L 70,22 L 68,20 L 65,19 L 62,20 L 60,22 L 58,20 L 58,18 Z
+    M 58,24 L 61,22 L 64,23 L 66,26 L 64,29 L 61,30 L 59,28 L 58,26 L 58,24 Z
+    M 64,30 L 68,28 L 72,30 L 76,32 L 80,34 L 84,36 L 88,38 L 90,41 L 88,44 L 84,45 L 80,44 L 76,42 L 72,40 L 68,38 L 66,35 L 64,32 L 64,30 Z
+    M 66,40 L 70,38 L 74,40 L 76,44 L 74,48 L 70,50 L 66,48 L 65,44 L 66,40 Z
+    M 76,48 L 80,46 L 84,48 L 86,52 L 84,56 L 80,57 L 76,55 L 75,51 L 76,48 Z
+    M 86,34 L 89,32 L 92,34 L 93,38 L 91,41 L 88,40 L 86,37 L 86,34 Z
+  `,
+  // Australia - main landmass and Tasmania
+  australia: `
+    M 80,62 L 84,60 L 88,59 L 92,60 L 95,63 L 96,67 L 95,71 L 92,74 L 88,76 L 84,75 L 81,73 L 79,70 L 78,66 L 79,63 L 80,62 Z
+    M 88,77 L 90,76 L 92,78 L 91,80 L 88,80 L 87,78 L 88,77 Z
+  `,
   // Greenland
-  greenland: "M32,8 L38,6 L42,8 L44,12 L42,16 L38,18 L34,16 L32,12 L32,8 Z",
+  greenland: `
+    M 30,8 L 34,6 L 38,5 L 42,6 L 44,9 L 43,12 L 40,14 L 36,15 L 32,14 L 30,11 L 30,8 Z
+  `,
   // UK & Ireland
-  ukIreland: "M40,22 L42,20 L44,22 L43,26 L40,28 L38,26 L40,22 Z",
-  // Japan
-  japan: "M88,32 L90,30 L92,32 L91,36 L88,38 L86,36 L88,32 Z",
+  ukIreland: `
+    M 42,22 L 44,21 L 45,23 L 44,26 L 42,27 L 41,25 L 42,22 Z
+    M 40,24 L 41,23 L 42,25 L 41,27 L 39,27 L 39,25 L 40,24 Z
+  `,
+  // Japan - main islands
+  japan: `
+    M 88,30 L 90,28 L 91,30 L 90,33 L 88,35 L 86,34 L 87,31 L 88,30 Z
+    M 90,34 L 92,33 L 93,35 L 92,38 L 90,38 L 89,36 L 90,34 Z
+  `,
   // New Zealand
-  newZealand: "M94,80 L96,78 L98,80 L97,84 L94,85 L93,82 L94,80 Z",
-  // Indonesia
-  indonesia: "M78,54 L82,52 L86,54 L84,58 L80,59 L76,57 L78,54 Z",
+  newZealand: `
+    M 96,78 L 97,77 L 98,79 L 97,81 L 95,81 L 95,79 L 96,78 Z
+    M 95,82 L 96,81 L 97,83 L 96,85 L 94,84 L 95,82 Z
+  `,
+  // Indonesia archipelago
+  indonesia: `
+    M 78,54 L 81,53 L 83,55 L 81,57 L 78,57 L 77,55 L 78,54 Z
+    M 83,54 L 86,53 L 88,55 L 87,58 L 84,58 L 83,56 L 83,54 Z
+    M 88,56 L 90,55 L 92,57 L 91,59 L 89,59 L 88,57 L 88,56 Z
+  `,
   // Madagascar
-  madagascar: "M64,64 L66,62 L68,64 L67,70 L64,72 L62,68 L64,64 Z"
+  madagascar: `
+    M 64,62 L 66,60 L 68,62 L 68,66 L 66,70 L 64,71 L 62,68 L 63,64 L 64,62 Z
+  `,
+  // Sri Lanka
+  sriLanka: `
+    M 72,52 L 74,51 L 75,53 L 74,55 L 72,55 L 71,53 L 72,52 Z
+  `,
+  // Philippines
+  philippines: `
+    M 84,46 L 86,45 L 87,47 L 86,50 L 84,51 L 83,49 L 84,46 Z
+  `,
+  // Taiwan
+  taiwan: `
+    M 86,40 L 87,39 L 88,41 L 87,43 L 86,42 L 86,40 Z
+  `,
+  // Iceland
+  iceland: `
+    M 38,14 L 40,13 L 42,14 L 41,16 L 39,17 L 37,16 L 38,14 Z
+  `,
+  // Cuba & Caribbean
+  caribbean: `
+    M 20,44 L 23,43 L 26,44 L 25,46 L 22,47 L 20,46 L 20,44 Z
+    M 26,45 L 28,44 L 29,46 L 28,48 L 26,47 L 26,45 Z
+  `
 };
 
 const COUNTRY_POSITIONS: { [key: string]: { x: number; y: number } } = {
