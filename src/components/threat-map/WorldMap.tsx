@@ -167,15 +167,15 @@ const WorldMap = memo(({ onAttackGenerated }: WorldMapProps) => {
         alt="World Map"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ 
-          filter: 'saturate(0.3) brightness(0.4) hue-rotate(180deg)',
+          filter: 'saturate(0.5) brightness(0.7) hue-rotate(180deg) contrast(1.1)',
         }}
       />
       
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cyber-dark/80 via-cyber-dark/60 to-cyber-dark/80" />
+      {/* Subtle Dark Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-cyber-dark/40 via-transparent to-cyber-dark/50" />
       
       {/* Cyan Tint Overlay */}
-      <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
+      <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
       
       {/* Grid overlay */}
       <div className="absolute inset-0 bg-grid-cyber opacity-20" />
