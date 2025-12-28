@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Zap, Maximize2, Shield, AlertTriangle } from "lucide-react";
+import { Maximize2, Shield, AlertTriangle, Radar, Globe, Target, Map, Cpu, Bot, Sparkles, Lock } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import WorldMap, { AttackArc } from "./threat-map/WorldMap";
 import AttackLog from "./threat-map/AttackLog";
@@ -8,6 +8,43 @@ import TopTargets from "./threat-map/TopTargets";
 import AttackTypeBreakdown from "./threat-map/AttackTypeBreakdown";
 import TimeframeToggle from "./threat-map/TimeframeToggle";
 import { Button } from "./ui/button";
+
+const securityTools = [
+  {
+    icon: Radar,
+    name: "NMAP IP Scanner",
+    enabled: true,
+    color: "text-primary",
+  },
+  {
+    icon: Globe,
+    name: "OWASP Web Scanner",
+    enabled: true,
+    color: "text-accent",
+  },
+  {
+    icon: Target,
+    name: "SHODAN IP Cache",
+    enabled: false,
+    color: "text-muted-foreground",
+    upgrade: true,
+  },
+];
+
+const securityFeatures = [
+  {
+    icon: Map,
+    name: "Attack Surface Discovery",
+    description: "Discover IP addresses and hostnames on your network automatically.",
+    enabled: false,
+  },
+  {
+    icon: Cpu,
+    name: "Attack Surface Mapper",
+    description: "Monitor threats on your most vulnerable public hosts and services.",
+    enabled: false,
+  },
+];
 
 const ThreatVisualization = () => {
   const [attacks, setAttacks] = useState<AttackArc[]>([]);
@@ -71,6 +108,97 @@ const ThreatVisualization = () => {
             </div>
             <div className={`h-[450px] rounded-xl overflow-hidden bg-card/80 backdrop-blur-md border border-border ${isFullscreen ? 'hidden lg:block' : ''}`}>
               <AttackLog attacks={attacks} maxItems={12} />
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* Security Tools Section */}
+        <AnimatedSection delay={250} className="mb-8">
+          <div className="rounded-xl bg-card/60 backdrop-blur-md border border-border p-6">
+            {/* Tool Cards Row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+              {securityTools.map((tool, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 p-4 rounded-lg bg-background/50 border border-border/50 hover:border-primary/30 transition-all group"
+                >
+                  <div className={`w-10 h-10 rounded-lg bg-background flex items-center justify-center border border-border ${tool.enabled ? 'border-primary/30' : ''}`}>
+                    <tool.icon className={`w-5 h-5 ${tool.color}`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      {tool.enabled ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary">
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                          Enabled
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-muted text-muted-foreground">
+                          <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground" />
+                          Disabled
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm font-medium text-foreground truncate">{tool.name}</p>
+                  </div>
+                  {tool.upgrade && (
+                    <Button size="sm" variant="outline" className="text-xs h-7 px-2 border-primary/50 text-primary hover:bg-primary/10">
+                      UPGRADE
+                    </Button>
+                  )}
+                </div>
+              ))}
+              
+              {/* CyberShieldAI Button */}
+              <div className="flex items-center gap-3 p-4 rounded-lg bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/30 hover:border-primary/50 transition-all group cursor-pointer">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                  <Bot className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary">
+                      <Sparkles className="w-3 h-3" />
+                      AI Powered
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium text-foreground truncate">CyberShieldAI</p>
+                </div>
+              </div>
+              
+              {/* CyberShieldAutomation Button */}
+              <div className="flex items-center gap-3 p-4 rounded-lg bg-gradient-to-r from-accent/10 to-primary/10 border border-accent/30 hover:border-accent/50 transition-all group cursor-pointer">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                  <Lock className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-accent/20 text-accent">
+                      <Cpu className="w-3 h-3" />
+                      Automated
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium text-foreground truncate">CyberShieldAutomation</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Feature Rows */}
+            <div className="space-y-3">
+              {securityFeatures.map((feature, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-4 p-4 rounded-lg bg-background/30 border border-border/30 hover:border-border/60 transition-all"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-background/50 flex items-center justify-center border border-border">
+                    <feature.icon className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-muted text-muted-foreground">
+                    Disabled
+                  </span>
+                  <span className="font-medium text-foreground">{feature.name}</span>
+                  <span className="text-sm text-muted-foreground hidden md:inline">{feature.description}</span>
+                </div>
+              ))}
             </div>
           </div>
         </AnimatedSection>
