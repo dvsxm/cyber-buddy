@@ -163,6 +163,9 @@ const ThreatVisualization = () => {
                   </div>
                   <p className="text-sm font-medium text-foreground truncate">CyberShieldAI</p>
                 </div>
+                <Button size="sm" variant="outline" className="text-xs h-7 px-2 border-primary/50 text-primary hover:bg-primary/10">
+                  UPGRADE
+                </Button>
               </div>
               
               {/* CyberShieldAutomation Button */}
@@ -179,6 +182,9 @@ const ThreatVisualization = () => {
                   </div>
                   <p className="text-sm font-medium text-foreground truncate">CyberShieldAutomation</p>
                 </div>
+                <Button size="sm" variant="outline" className="text-xs h-7 px-2 border-accent/50 text-accent hover:bg-accent/10">
+                  UPGRADE
+                </Button>
               </div>
             </div>
 
@@ -196,7 +202,10 @@ const ThreatVisualization = () => {
                     Disabled
                   </span>
                   <span className="font-medium text-foreground">{feature.name}</span>
-                  <span className="text-sm text-muted-foreground hidden md:inline">{feature.description}</span>
+                  <span className="text-sm text-muted-foreground hidden md:inline flex-1">{feature.description}</span>
+                  <Button size="sm" variant="outline" className="text-xs h-7 px-2 border-primary/50 text-primary hover:bg-primary/10 ml-auto">
+                    UPGRADE
+                  </Button>
                 </div>
               ))}
             </div>
