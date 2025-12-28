@@ -1,5 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import { PieChart, Shield, Bug, Zap, Crosshair, Database, Lock, Wifi, Globe } from "lucide-react";
+import DeviceManagement from "./DeviceManagement";
 
 interface AttackType {
   name: string;
@@ -87,60 +88,65 @@ const AttackTypeBreakdown = memo(() => {
   };
 
   return (
-    <div className="p-5 rounded-xl bg-card border border-border">
-      <div className="flex items-center gap-2 mb-5">
-        <div className="p-2 rounded-lg bg-primary/10">
-          <PieChart className="w-4 h-4 text-primary" />
-        </div>
-        <h3 className="font-semibold text-sm">Attack Type Distribution</h3>
-      </div>
-
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Donut chart */}
-        <div className="relative flex items-center justify-center">
-          <svg viewBox="0 0 100 100" className="w-48 h-48">
-            {createDonutSegments()}
-            {/* Center hole */}
-            <circle cx="50" cy="50" r="25" fill="hsl(var(--card))" />
-            {/* Center text */}
-            <text x="50" y="46" textAnchor="middle" className="fill-foreground text-[8px] font-bold">
-              {total.toLocaleString()}
-            </text>
-            <text x="50" y="56" textAnchor="middle" className="fill-muted-foreground text-[4px]">
-              Total Attacks
-            </text>
-          </svg>
+    <div className="space-y-6">
+      <div className="p-5 rounded-xl bg-card border border-border">
+        <div className="flex items-center gap-2 mb-5">
+          <div className="p-2 rounded-lg bg-primary/10">
+            <PieChart className="w-4 h-4 text-primary" />
+          </div>
+          <h3 className="font-semibold text-sm">Attack Type Distribution</h3>
         </div>
 
-        {/* Legend */}
-        <div className="space-y-2">
-          {attackTypes.map(type => {
-            const Icon = type.icon;
-            return (
-              <div
-                key={type.name}
-                className={`flex items-center justify-between p-2 rounded-lg transition-all duration-300 cursor-pointer ${
-                  selectedType === type.name ? "bg-muted" : "hover:bg-muted/50"
-                }`}
-                onMouseEnter={() => setSelectedType(type.name)}
-                onMouseLeave={() => setSelectedType(null)}
-              >
-                <div className="flex items-center gap-2">
-                  <span className={`w-3 h-3 rounded-full ${type.color}`} />
-                  <Icon className="w-3.5 h-3.5 text-muted-foreground" />
-                  <span className="text-sm font-medium">{type.name}</span>
+        <div className="grid lg:grid-cols-2 gap-6">
+          {/* Donut chart */}
+          <div className="relative flex items-center justify-center">
+            <svg viewBox="0 0 100 100" className="w-48 h-48">
+              {createDonutSegments()}
+              {/* Center hole */}
+              <circle cx="50" cy="50" r="25" fill="hsl(var(--card))" />
+              {/* Center text */}
+              <text x="50" y="46" textAnchor="middle" className="fill-foreground text-[8px] font-bold">
+                {total.toLocaleString()}
+              </text>
+              <text x="50" y="56" textAnchor="middle" className="fill-muted-foreground text-[4px]">
+                Total Attacks
+              </text>
+            </svg>
+          </div>
+
+          {/* Legend */}
+          <div className="space-y-2">
+            {attackTypes.map(type => {
+              const Icon = type.icon;
+              return (
+                <div
+                  key={type.name}
+                  className={`flex items-center justify-between p-2 rounded-lg transition-all duration-300 cursor-pointer ${
+                    selectedType === type.name ? "bg-muted" : "hover:bg-muted/50"
+                  }`}
+                  onMouseEnter={() => setSelectedType(type.name)}
+                  onMouseLeave={() => setSelectedType(null)}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className={`w-3 h-3 rounded-full ${type.color}`} />
+                    <Icon className="w-3.5 h-3.5 text-muted-foreground" />
+                    <span className="text-sm font-medium">{type.name}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-mono tabular-nums text-muted-foreground">
+                      {((type.count / total) * 100).toFixed(1)}%
+                    </span>
+                    <span className="text-xs font-mono tabular-nums">{type.count.toLocaleString()}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-mono tabular-nums text-muted-foreground">
-                    {((type.count / total) * 100).toFixed(1)}%
-                  </span>
-                  <span className="text-xs font-mono tabular-nums">{type.count.toLocaleString()}</span>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
+
+      {/* Device Management Section */}
+      <DeviceManagement />
     </div>
   );
 });
