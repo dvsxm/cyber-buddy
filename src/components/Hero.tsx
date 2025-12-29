@@ -1,7 +1,26 @@
 import { Button } from "@/components/ui/button";
-import { Shield, Lock, Eye, ArrowRight, Zap, Activity } from "lucide-react";
+import { Shield, Lock, Eye, ArrowRight, Zap, Activity, CheckCircle, Globe, Users, Server } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const Hero = () => {
+  const [activeThreats, setActiveThreats] = useState(1247);
+  const [blockedToday, setBlockedToday] = useState(158234);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveThreats(prev => prev + Math.floor(Math.random() * 5) - 2);
+      setBlockedToday(prev => prev + Math.floor(Math.random() * 10));
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const liveStats = [
+    { icon: Shield, value: blockedToday.toLocaleString(), label: "Threats Blocked", color: "text-green-400" },
+    { icon: Globe, value: "195", label: "Countries Protected", color: "text-primary" },
+    { icon: Users, value: "12K+", label: "Active Users", color: "text-accent" },
+    { icon: Server, value: "99.99%", label: "Uptime SLA", color: "text-yellow-400" },
+  ];
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
       {/* Background Grid */}
@@ -41,7 +60,7 @@ const Hero = () => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-in" style={{ animationDelay: '0.3s' }}>
             <Button variant="cyber" size="xl" className="group relative overflow-hidden">
               <span className="relative z-10 flex items-center gap-2">
                 Start Free Trial
@@ -54,15 +73,42 @@ const Hero = () => {
             </Button>
           </div>
 
+          {/* Live Stats Bar */}
+          <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-green-500/10 border border-green-500/30">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+              <span className="text-sm text-green-400 font-medium">
+                <span className="font-mono">{activeThreats.toLocaleString()}</span> threats actively monitored
+              </span>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+              {liveStats.map((stat, index) => (
+                <div 
+                  key={index}
+                  className="p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-300 group hover:bg-card/70"
+                >
+                  <stat.icon className={`w-5 h-5 ${stat.color} mb-2 mx-auto group-hover:scale-110 transition-transform`} />
+                  <p className="text-2xl font-bold text-foreground font-mono">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Feature Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <div className="flex flex-wrap items-center justify-center gap-6 mt-12 animate-fade-in" style={{ animationDelay: '0.5s' }}>
             {[
               { icon: Shield, text: "99.9% Threat Detection", color: "text-primary" },
               { icon: Lock, text: "End-to-End Encryption", color: "text-primary" },
               { icon: Eye, text: "24/7 Monitoring", color: "text-primary" },
             ].map((item, index) => (
               <div key={item.text} className="flex items-center gap-2 text-muted-foreground px-4 py-2 rounded-full bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-300 hover:bg-card">
-                <item.icon className={`w-5 h-5 ${item.color}`} />
+                <CheckCircle className="w-4 h-4 text-green-400" />
+                <item.icon className={`w-4 h-4 ${item.color}`} />
                 <span className="text-sm font-medium">{item.text}</span>
               </div>
             ))}
