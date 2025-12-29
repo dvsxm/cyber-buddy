@@ -7,6 +7,10 @@ import ThreatStats from "./threat-map/ThreatStats";
 import TopTargets from "./threat-map/TopTargets";
 import AttackTypeBreakdown from "./threat-map/AttackTypeBreakdown";
 import TimeframeToggle from "./threat-map/TimeframeToggle";
+import SecurityScore from "./SecurityScore";
+import QuickActions from "./QuickActions";
+import NotificationCenter from "./NotificationCenter";
+import ThreatTimeline from "./ThreatTimeline";
 import { Button } from "./ui/button";
 
 const securityTools = [
@@ -212,8 +216,18 @@ const ThreatVisualization = () => {
           </div>
         </AnimatedSection>
 
-        {/* Top Targets */}
+        {/* Dashboard Widgets Row */}
         <AnimatedSection delay={300} className="mb-8">
+          <div className="grid lg:grid-cols-4 gap-6">
+            <SecurityScore />
+            <QuickActions />
+            <NotificationCenter />
+            <ThreatTimeline />
+          </div>
+        </AnimatedSection>
+
+        {/* Top Targets */}
+        <AnimatedSection delay={350} className="mb-8">
           <TopTargets />
         </AnimatedSection>
 
