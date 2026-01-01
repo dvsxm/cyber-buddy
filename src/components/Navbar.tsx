@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Shield, Menu, X, ChevronRight } from "lucide-react";
+import { Shield, Menu, X, ChevronRight, LayoutDashboard } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,8 @@ const Navbar = () => {
     { name: "Pricing", href: "#pricing" },
     { name: "Contact", href: "#contact" },
   ];
+
+  const dashboardLink = { name: "Dashboard", href: "/dashboard", isRoute: true };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -53,6 +56,14 @@ const Navbar = () => {
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-1/2 transition-all duration-300 rounded-full" />
               </a>
             ))}
+            <Link
+              to={dashboardLink.href}
+              className="relative px-4 py-2 text-primary hover:text-primary/80 transition-colors duration-300 text-sm font-medium group flex items-center gap-1.5"
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              {dashboardLink.name}
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-1/2 transition-all duration-300 rounded-full" />
+            </Link>
           </div>
 
           {/* CTA Button */}
@@ -89,6 +100,14 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
+              <Link
+                to={dashboardLink.href}
+                onClick={() => setIsOpen(false)}
+                className="text-primary hover:text-primary/80 hover:bg-card transition-all duration-300 text-sm font-medium py-3 px-4 rounded-lg flex items-center gap-2"
+              >
+                <LayoutDashboard className="w-4 h-4" />
+                {dashboardLink.name}
+              </Link>
               <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
                 <Button variant="ghost" size="sm" className="justify-start">
                   Sign In
