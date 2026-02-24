@@ -11,7 +11,7 @@ import SecurityCertifications from "@/components/SecurityCertifications";
 import TeamStats from "@/components/TeamStats";
 import CaseStudies from "@/components/CaseStudies";
 import Compliance from "@/components/Compliance";
-import ComparisonTable from "@/components/ComparisonTable";
+
 import Testimonials from "@/components/Testimonials";
 import FAQSection from "@/components/FAQSection";
 import CTA from "@/components/CTA";
@@ -39,7 +39,7 @@ const Index = () => {
       <TeamStats />
       <CaseStudies />
       <Compliance />
-      <ComparisonTable />
+      
       <Testimonials />
       <FAQSection />
       <CTA />
