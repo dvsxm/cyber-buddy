@@ -17,9 +17,13 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Threat Map", href: "#threat-map" },
+    { name: "Analysis", href: "#analysis" },
   ];
 
-  const dashboardLink = { name: "Dashboard", href: "/dashboard", isRoute: true };
+  const routeLinks = [
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Infrastructure", href: "/infrastructure", icon: Server },
+  ];
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
