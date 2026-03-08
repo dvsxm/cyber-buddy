@@ -68,6 +68,21 @@ const ThreatVisualization = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <AnimatedSection className="text-center mb-10">
+          {/* Cyberpunk Donate Button */}
+          <div className="mb-16 flex justify-center">
+            <a
+              href="https://donate.stripe.com/eVq00c2GNaO09767oTgfu00"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative inline-flex items-center gap-2 overflow-hidden rounded-[4px] border border-[hsl(160_100%_50%_/_0.3)] bg-[hsl(0_0%_4%_/_0.8)] px-5 py-2.5 font-mono text-sm font-semibold text-[#00ffaa] no-underline backdrop-blur-lg tracking-wider transition-all duration-300 hover:border-[hsl(160_100%_50%_/_0.6)] hover:shadow-[0_0_24px_rgba(0,255,170,0.25),inset_0_0_24px_rgba(0,255,170,0.05)] before:absolute before:inset-0 before:bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,255,170,0.03)_2px,rgba(0,255,170,0.03)_4px)] before:pointer-events-none"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 fill-destructive text-destructive transition-transform duration-300 hover:scale-125">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+              </svg>
+              SUPPORT_THE_DEVS
+            </a>
+          </div>
+
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-red-500/30 bg-red-500/5 mb-6">
             <AlertTriangle className="w-4 h-4 text-red-500 animate-pulse" />
             <span className="text-sm text-red-400 font-medium">Live Threat Intelligence</span>
