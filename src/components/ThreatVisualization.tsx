@@ -29,9 +29,8 @@ const securityTools = [
   {
     icon: Target,
     name: "SHODAN IP Cache",
-    enabled: false,
-    color: "text-muted-foreground",
-    upgrade: true,
+    enabled: true,
+    color: "text-primary",
   },
 ];
 
@@ -40,13 +39,13 @@ const securityFeatures = [
     icon: Map,
     name: "Attack Surface Discovery",
     description: "Discover IP addresses and hostnames on your network automatically.",
-    enabled: false,
+    enabled: true,
   },
   {
     icon: Cpu,
     name: "Attack Surface Mapper",
     description: "Monitor threats on your most vulnerable public hosts and services.",
-    enabled: false,
+    enabled: true,
   },
 ];
 
