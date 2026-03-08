@@ -16,11 +16,7 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Solutions", href: "#solutions" },
-    { name: "Features", href: "#features" },
     { name: "Threat Map", href: "#threat-map" },
-    
-    { name: "Contact", href: "#contact" },
   ];
 
   const dashboardLink = { name: "Dashboard", href: "/dashboard", isRoute: true };

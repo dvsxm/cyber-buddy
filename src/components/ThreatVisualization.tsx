@@ -29,9 +29,8 @@ const securityTools = [
   {
     icon: Target,
     name: "SHODAN IP Cache",
-    enabled: false,
-    color: "text-muted-foreground",
-    upgrade: true,
+    enabled: true,
+    color: "text-primary",
   },
 ];
 
@@ -40,13 +39,13 @@ const securityFeatures = [
     icon: Map,
     name: "Attack Surface Discovery",
     description: "Discover IP addresses and hostnames on your network automatically.",
-    enabled: false,
+    enabled: true,
   },
   {
     icon: Cpu,
     name: "Attack Surface Mapper",
     description: "Monitor threats on your most vulnerable public hosts and services.",
-    enabled: false,
+    enabled: true,
   },
 ];
 
@@ -126,30 +125,18 @@ const ThreatVisualization = () => {
                   key={index}
                   className="flex items-center gap-3 p-4 rounded-lg bg-background/50 border border-border/50 hover:border-primary/30 transition-all group"
                 >
-                  <div className={`w-10 h-10 rounded-lg bg-background flex items-center justify-center border border-border ${tool.enabled ? 'border-primary/30' : ''}`}>
+                  <div className="w-10 h-10 rounded-lg bg-background flex items-center justify-center border border-primary/30">
                     <tool.icon className={`w-5 h-5 ${tool.color}`} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      {tool.enabled ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                          Enabled
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-muted text-muted-foreground">
-                          <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground" />
-                          Disabled
-                        </span>
-                      )}
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        Enabled
+                      </span>
                     </div>
                     <p className="text-sm font-medium text-foreground truncate">{tool.name}</p>
                   </div>
-                  {tool.upgrade && (
-                    <Button size="sm" variant="outline" className="text-xs h-7 px-2 border-primary/50 text-primary hover:bg-primary/10">
-                      UPGRADE
-                    </Button>
-                  )}
                 </div>
               ))}
               
@@ -167,9 +154,6 @@ const ThreatVisualization = () => {
                   </div>
                   <p className="text-sm font-medium text-foreground truncate">CyberShieldAI</p>
                 </div>
-                <Button size="sm" variant="outline" className="text-xs h-7 px-2 border-primary/50 text-primary hover:bg-primary/10">
-                  UPGRADE
-                </Button>
               </div>
               
               {/* CyberShieldAutomation Button */}
@@ -186,9 +170,6 @@ const ThreatVisualization = () => {
                   </div>
                   <p className="text-sm font-medium text-foreground truncate">CyberShieldAutomation</p>
                 </div>
-                <Button size="sm" variant="outline" className="text-xs h-7 px-2 border-accent/50 text-accent hover:bg-accent/10">
-                  UPGRADE
-                </Button>
               </div>
             </div>
 
@@ -199,17 +180,15 @@ const ThreatVisualization = () => {
                   key={index}
                   className="flex items-center gap-4 p-4 rounded-lg bg-background/30 border border-border/30 hover:border-border/60 transition-all"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-background/50 flex items-center justify-center border border-border">
-                    <feature.icon className="w-4 h-4 text-muted-foreground" />
+                  <div className="w-8 h-8 rounded-lg bg-background/50 flex items-center justify-center border border-primary/30">
+                    <feature.icon className="w-4 h-4 text-primary" />
                   </div>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-muted text-muted-foreground">
-                    Disabled
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Enabled
                   </span>
                   <span className="font-medium text-foreground">{feature.name}</span>
                   <span className="text-sm text-muted-foreground hidden md:inline flex-1">{feature.description}</span>
-                  <Button size="sm" variant="outline" className="text-xs h-7 px-2 border-primary/50 text-primary hover:bg-primary/10 ml-auto">
-                    UPGRADE
-                  </Button>
                 </div>
               ))}
             </div>
