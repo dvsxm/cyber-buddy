@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Shield, Menu, X, ChevronRight, LayoutDashboard } from "lucide-react";
+import { Shield, Menu, X, ChevronRight, LayoutDashboard, Server } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +34,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group">
             <div className="relative">
               <Shield className="w-8 h-8 text-primary transition-all duration-300 group-hover:drop-shadow-[0_0_8px_hsl(186_100%_50%_/_0.8)]" />
               <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -42,7 +42,7 @@ const Navbar = () => {
             <span className="text-xl font-bold text-foreground">
               Cyber<span className="text-primary">Shield</span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
@@ -56,14 +56,17 @@ const Navbar = () => {
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-1/2 transition-all duration-300 rounded-full" />
               </a>
             ))}
-            <Link
-              to={dashboardLink.href}
-              className="relative px-4 py-2 text-primary hover:text-primary/80 transition-colors duration-300 text-sm font-medium group flex items-center gap-1.5"
-            >
-              <LayoutDashboard className="w-4 h-4" />
-              {dashboardLink.name}
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-1/2 transition-all duration-300 rounded-full" />
-            </Link>
+            {routeLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.href}
+                className="relative px-4 py-2 text-primary hover:text-primary/80 transition-colors duration-300 text-sm font-medium group flex items-center gap-1.5"
+              >
+                <link.icon className="w-4 h-4" />
+                {link.name}
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary group-hover:w-1/2 transition-all duration-300 rounded-full" />
+              </Link>
+            ))}
           </div>
 
           {/* CTA Button */}
@@ -100,14 +103,17 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
-              <Link
-                to={dashboardLink.href}
-                onClick={() => setIsOpen(false)}
-                className="text-primary hover:text-primary/80 hover:bg-card transition-all duration-300 text-sm font-medium py-3 px-4 rounded-lg flex items-center gap-2"
-              >
-                <LayoutDashboard className="w-4 h-4" />
-                {dashboardLink.name}
-              </Link>
+              {routeLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="text-primary hover:text-primary/80 hover:bg-card transition-all duration-300 text-sm font-medium py-3 px-4 rounded-lg flex items-center gap-2"
+                >
+                  <link.icon className="w-4 h-4" />
+                  {link.name}
+                </Link>
+              ))}
               <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
                 <Button variant="ghost" size="sm" className="justify-start">
                   Sign In
