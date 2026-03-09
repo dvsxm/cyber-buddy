@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Shield, Menu, X, ChevronRight, LayoutDashboard, Server } from "lucide-react";
+import { Shield, Menu, X, ChevronRight, LayoutDashboard, Server, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { user, loading, signOut } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +27,11 @@ const Navbar = () => {
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Infrastructure", href: "/infrastructure", icon: Server },
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -69,15 +77,40 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-              Sign In
-            </Button>
-            <Button variant="cyber" size="sm" className="group">
-              Get Protected
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </Button>
+            {!loading && user ? (
+              <>
+                <div className="flex items-center gap-2">
+                  {user.user_metadata?.avatar_url && (
+                    <img
+                      src={user.user_metadata.avatar_url}
+                      alt="Avatar"
+                      className="w-8 h-8 rounded-full border border-border"
+                    />
+                  )}
+                  <span className="text-sm text-muted-foreground">
+                    {user.user_metadata?.full_name || user.email}
+                  </span>
+                </div>
+                <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-muted-foreground hover:text-foreground gap-1.5">
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                    Sign In
+                  </Button>
+                </Link>
+                <Button variant="cyber" size="sm" className="group" onClick={() => navigate("/login")}>
+                  Get Protected
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -115,13 +148,34 @@ const Navbar = () => {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
-                <Button variant="ghost" size="sm" className="justify-start">
-                  Sign In
-                </Button>
-                <Button variant="cyber" size="sm" className="group">
-                  Get Protected
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </Button>
+                {!loading && user ? (
+                  <>
+                    <div className="flex items-center gap-2 px-4 py-2">
+                      {user.user_metadata?.avatar_url && (
+                        <img src={user.user_metadata.avatar_url} alt="Avatar" className="w-8 h-8 rounded-full border border-border" />
+                      )}
+                      <span className="text-sm text-muted-foreground">{user.user_metadata?.full_name || user.email}</span>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={handleSignOut} className="justify-start gap-1.5">
+                      <LogOut className="w-4 h-4" />
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" onClick={() => setIsOpen(false)}>
+                      <Button variant="ghost" size="sm" className="justify-start w-full">
+                        Sign In
+                      </Button>
+                    </Link>
+                    <Link to="/login" onClick={() => setIsOpen(false)}>
+                      <Button variant="cyber" size="sm" className="group w-full">
+                        Get Protected
+                        <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
